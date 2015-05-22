@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Master</string>
+
+    <string name="test">Aceasta este lucrarea mea de disertatie.</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_plan">PlanActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="unicaLinieRadio">calatoresc pe o singura linie</string>
+    <string name="multipleLiniiRadio">ajung cat mai repede, chiar daca schimb mai multe linii</string>
+    <string name="tramvaiRadio">tramvaiul</string>
+    <string name="troleibuzRadio">troleibuzul</string>
+    <string name="autobuzRadio">autobuzul</string>
+    <string name="nimicRadio">nu doresc sa evit</string>
+
+
+        <string-array name="planets_array">
+            <item>Tricodava</item>
+            <item>Ghencea</item>
+            <item>Favorit</item>
+            <item>Orizont</item>
+            <item>Bd Timisoara</item>
+            <item>Amzei</item>
+            <item>Piata Romana</item>
+            <item>Universitate</item>
+        </string-array>
+
+    <string-array name="linii_array">
+        <item>41</item>
+        <item>69</item>
+        <item>90</item>
+        <item>126</item>
+    </string-array>
+
+    <string name="title_activity_statii">StatiiActivity</string>
+    <string name="title_activity_linii">LiniiActivity</string>
+
+</resources>

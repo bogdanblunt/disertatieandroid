@@ -1,0 +1,293 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/planSimplu"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+
+            android:text="Planificare rapida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:textSize="20dp"
+            android:textColor="#4A7023" />
+
+        <TableLayout
+            android:id="@+id/tableFormularSimplu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            >
+
+            <TableRow
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Statia de plecare"
+                    android:textSize="18dp"
+                    android:textColor="#4A7023"
+                    />
+
+                <Spinner
+                    android:id="@+id/plecareSimplu_spinner"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+
+            </TableRow>
+            <TableRow>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Statia de sosire"
+                    android:textSize="18dp"
+                    android:textColor="#4A7023"
+                    />
+
+                <Spinner
+                    android:id="@+id/sosireSimplu_spinner"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+
+                <!--<AutoCompleteTextView-->
+                    <!--android:id="@+id/sosireSimplu_actv"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:layout_marginLeft="80dp"-->
+                    <!--android:layout_width="150dp"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                <!--</AutoCompleteTextView>-->
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:textSize="18dp"
+            android:text="Planifica"
+            android:textColor="#4A7023"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="10dp"
+            android:onClick="planificaSimplu"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/planAvansat"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView
+
+            android:text="Formular de calatorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:textSize="20dp"
+            android:textColor="#4A7023" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Evita urmatoarea linie: "
+                android:textSize="18dp"
+                android:textColor="#4A7023"
+                />
+
+            <Spinner
+                android:id="@+id/evita_spinner3"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prefer sa: "
+                android:textSize="18dp"
+                android:textColor="#4A7023"
+                />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton android:id="@+id/unicaLinieRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unicaLinieRadio"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/linieRapidaRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/multipleLiniiRadio"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doresc sa evit: "
+                android:textSize="18dp"
+                android:textColor="#4A7023"
+                />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioButton android:id="@+id/tramvaiRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tramvaiRadio"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/troleibuzRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/troleibuzRadio"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/autobuzRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/autobuzRadio"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/nimicRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nimicRadio"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tableFormularAvansat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            >
+
+            <TableRow
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Statia de plecare"
+                    android:textSize="18dp"
+                    android:textColor="#4A7023"
+                    />
+
+                <Spinner
+                    android:id="@+id/plecareAvansat_spinner"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+
+            </TableRow>
+            <TableRow>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Statia de sosire"
+                    android:textSize="18dp"
+                    android:textColor="#4A7023"
+                    />
+
+                <Spinner
+                    android:id="@+id/sosireAvansat_spinner"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:textSize="18dp"
+            android:text="Planifica"
+            android:textColor="#4A7023"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
+    </ScrollView>
