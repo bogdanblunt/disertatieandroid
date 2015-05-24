@@ -100,6 +100,7 @@ public class DisertatieDatabaseHelper {
         while(cursor.moveToNext()){
             linii.add(String.valueOf(cursor.getInt(0)));
         }
+        cursor.close();
 
         return linii;
     }
