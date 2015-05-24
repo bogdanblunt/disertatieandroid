@@ -27,19 +27,16 @@ import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 public class LiniiFragment extends Fragment {
 
     private static final String KEY_POSITION="position";
-    private static final String KEY_TIP_LINIE="tip_linie";
     static List<String> all_numar_linii_tramvai = null;
     static List<String> all_numar_linii_troleibuz = null;
     static List<String> all_numar_linii_autobuz = null;
-    static String [] tip_linie = new String[] {"tramvai", "troleibuz", "autobuz"};
-    final DisertatieDatabaseHelper helper = new DisertatieDatabaseHelper(getActivity().getBaseContext());
+
 
     static LiniiFragment newInstance(int position) {
 
         LiniiFragment frag=new LiniiFragment();
         Bundle args=new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putString(KEY_TIP_LINIE, tip_linie[position]);
         frag.setArguments(args);
 
         return(frag);
@@ -52,19 +49,21 @@ public class LiniiFragment extends Fragment {
         View result=inflater.inflate(R.layout.liniiswipe, container, false);
 
         int position=getArguments().getInt(KEY_POSITION, -1);
+        String [] tip_linie = new String[] {"tramvai", "troleibuz", "autobuz"};
+        final DisertatieDatabaseHelper helper = new DisertatieDatabaseHelper(getActivity().getBaseContext());
 
         if(all_numar_linii_tramvai==null){
-            all_numar_linii_tramvai = helper.getAllLiniiNumarByTip(KEY_TIP_LINIE);
+            all_numar_linii_tramvai = helper.getAllLiniiNumarByTip(tip_linie[0]);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_tramvai);
 
         if(all_numar_linii_troleibuz==null){
-            all_numar_linii_troleibuz = helper.getAllLiniiNumarByTip(KEY_TIP_LINIE);
+            all_numar_linii_troleibuz = helper.getAllLiniiNumarByTip(tip_linie[1]);
         }
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_troleibuz);
 
         if(all_numar_linii_autobuz==null) {
-            all_numar_linii_autobuz = helper.getAllLiniiNumarByTip(KEY_TIP_LINIE);
+            all_numar_linii_autobuz = helper.getAllLiniiNumarByTip(tip_linie[2]);
         }
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_autobuz);
 
