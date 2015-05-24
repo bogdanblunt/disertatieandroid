@@ -20,13 +20,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Button plan_button = (Button)findViewById(R.id.formulare_button);
-//        helper = new DisertatieDatabaseHelper(this);
-//        Cursor cursor = helper.getAllLinii();
-//
-//       if(cursor.moveToNext()) {
-//            plan_button.setText(cursor.getString(3));
-//        }
     }
 
 
