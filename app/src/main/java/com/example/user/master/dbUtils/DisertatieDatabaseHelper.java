@@ -16,7 +16,7 @@ public class DisertatieDatabaseHelper {
 
     private SQLiteDatabase database = null;
     private static final String DATABASE_NAME = "disertatie.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME_STATII = "statii";
     private static final String TABLE_NAME_LINII = "linii";
     private static final String TABLE_NAME_LEGATURI = "legaturi";
@@ -59,6 +59,9 @@ public class DisertatieDatabaseHelper {
             sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME_LEGATURI + " ( " + TIMETRACKER_COLUMN_ID + " integer primary key, " + TIMETRACKER_COLUMN_lEGATURI_IDLINIE + " integer, " + TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + " integer)");
             sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME_FORUM + " ( " + TIMETRACKER_COLUMN_ID + " integer primary key, " + TIMETRACKER_COLUMN_F0RUM_TEXT + " text, " + TIMETRACKER_COLUMN_FORUM_DATA + " text)");
             sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME_INREGISTRARI + " ( " + TIMETRACKER_COLUMN_ID + " integer primary key, " + TIMETRACKER_COLUMN_INREGISTRARI_NUME + " text, " + TIMETRACKER_COLUMN_INREGISTRARI_PRENUME + " text, " + TIMETRACKER_COLUMN_INREGISTRARI_USERNAME + " text, " + TIMETRACKER_COLUMN_INREGISTRARI_PAROLA + " text, " + TIMETRACKER_COLUMN_INREGISTRARI_TIPUSER + " text)");
+            sqLiteDatabase.execSQL(QueriesStrings.INSERT_DATA_INTO_LINII);
+            sqLiteDatabase.execSQL(QueriesStrings.INSERT_DATA_INTO_STATII);
+            sqLiteDatabase.execSQL(QueriesStrings.INSERT_DATA_INTO_LEGATURI);
         }
 
         @Override
