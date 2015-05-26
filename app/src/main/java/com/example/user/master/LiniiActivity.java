@@ -25,7 +25,7 @@ public class LiniiActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pagerLinii);
-        pager.setAdapter(new ViewPagerLinesAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new ViewPagerLinesAdapter(getSupportFragmentManager(), this));
 
         tabs = (SlidingTabLayout)findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);

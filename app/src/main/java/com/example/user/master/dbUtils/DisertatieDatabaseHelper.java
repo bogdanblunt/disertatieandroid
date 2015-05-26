@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -112,4 +113,20 @@ public class DisertatieDatabaseHelper {
                 TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + "=s." + TIMETRACKER_COLUMN_ID + " AND leg." +
                 TIMETRACKER_COLUMN_lEGATURI_IDLINIE + "=lin." + TIMETRACKER_COLUMN_ID +
                 " AND lin." + TIMETRACKER_COLUMN_LINII_NUMAR + "=?", new String[] {numarLinie}); }
+
+    public HashMap<String, HashMap<String, String>> getStatiiAndLinii(){
+        HashMap<String, HashMap<String, String>> result = new HashMap<>();
+        Cursor cursor = database.rawQuery("SELECT lin." + TIMETRACKER_COLUMN_LINII_NUMAR + ", s."+ TIMETRACKER_COLUMN_STATII_NUME + ", s." +
+                TIMETRACKER_COLUMN_STATII_DESCRIERE +" FROM " + TABLE_NAME_STATII + " s, "
+                + TABLE_NAME_LEGATURI+ " leg, " + TABLE_NAME_LINII  + " lin WHERE leg." +
+                TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + "=s." + TIMETRACKER_COLUMN_ID + " AND leg." +
+                TIMETRACKER_COLUMN_lEGATURI_IDLINIE + "=lin." + TIMETRACKER_COLUMN_ID, null);
+                while(cursor.moveToNext()) {
+                    if(result.get(cursor.getString(0)) == null){
+                        result.put(cursor.getString(0), new HashMap<String, String>());
+                    }
+                    result.get(cursor.getString(0)).put(cursor.getString(1), cursor.getString(2));
+                }
+        return result;
+    }
 }
