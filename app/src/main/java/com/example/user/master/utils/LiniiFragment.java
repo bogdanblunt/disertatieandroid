@@ -1,6 +1,5 @@
 package com.example.user.master.utils;
 
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -70,7 +68,7 @@ public class LiniiFragment extends Fragment {
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_autobuz);
 
         if(position==0){
-            View tramvai=inflater.inflate(R.layout.tramvaie_layout, container, false);
+            View tramvai=inflater.inflate(R.layout.tramvaie_panel, container, false);
 
             Spinner spinner1 = (Spinner) tramvai.findViewById(R.id.tramvai_spinner);
 
