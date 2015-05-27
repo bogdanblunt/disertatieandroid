@@ -47,9 +47,8 @@ public class LiniiFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             final ViewGroup container,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        View result=inflater.inflate(R.layout.liniiswipe, container, false);
 
         int position=getArguments().getInt(KEY_POSITION, -1);
         String [] tip_linie = new String[] {"tramvai", "troleibuz", "autobuz"};
@@ -71,14 +70,9 @@ public class LiniiFragment extends Fragment {
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_autobuz);
 
         if(position==0){
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.VISIBLE);
-            LinearLayout lTroleibuzt =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuzt.setVisibility(View.GONE);
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.GONE);
+            View tramvai=inflater.inflate(R.layout.tramvaie_layout, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.tramvai_spinner);
+            Spinner spinner1 = (Spinner) tramvai.findViewById(R.id.tramvai_spinner);
 
             spinner1.setAdapter(adapter);
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -138,16 +132,12 @@ public class LiniiFragment extends Fragment {
 
                 }
             });
+            return tramvai;
         }else if(position==1){
 
-            LinearLayout lTroleibuz =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuz.setVisibility(View.VISIBLE);
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.GONE);
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.GONE);
+            View troleibuz=inflater.inflate(R.layout.troleibuze_panel, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.troleibuz_spinner);
+            Spinner spinner1 = (Spinner) troleibuz.findViewById(R.id.troleibuz_spinner);
             spinner1.setAdapter(adapter2);
 
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -198,23 +188,19 @@ public class LiniiFragment extends Fragment {
                             tableLayout.addView(tableRow);
 
                         }
-                    }}
+                    }
+                }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
-
+            return troleibuz;
         } else {
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.VISIBLE);
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.GONE);
-            LinearLayout lTroleibuzt =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuzt.setVisibility(View.GONE);
+            View autobuze=inflater.inflate(R.layout.autobuze_panel, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.bus_spinner);
+            Spinner spinner1 = (Spinner) autobuze.findViewById(R.id.bus_spinner);
             spinner1.setAdapter(adapter3);
 
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -273,8 +259,7 @@ public class LiniiFragment extends Fragment {
                 }
             });
 
-
+            return autobuze;
         }
-        return(result);
     }
 }
