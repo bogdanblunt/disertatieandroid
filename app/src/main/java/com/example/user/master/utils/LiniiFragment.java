@@ -1,6 +1,5 @@
 package com.example.user.master.utils;
 
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -17,7 +15,9 @@ import android.widget.TextView;
 
 import com.example.user.master.R;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 
@@ -30,15 +30,16 @@ public class LiniiFragment extends Fragment {
     static List<String> all_numar_linii_tramvai = null;
     static List<String> all_numar_linii_troleibuz = null;
     static List<String> all_numar_linii_autobuz = null;
+    static HashMap<String, HashMap<String, String>> liniiSiStatii = null;
 
 
-    static LiniiFragment newInstance(int position) {
+    static LiniiFragment newInstance(int position, HashMap<String, HashMap<String, String>> data) {
 
         LiniiFragment frag=new LiniiFragment();
         Bundle args=new Bundle();
         args.putInt(KEY_POSITION, position);
         frag.setArguments(args);
-
+        liniiSiStatii = data;
         return(frag);
     }
 
@@ -46,7 +47,6 @@ public class LiniiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        View result=inflater.inflate(R.layout.liniiswipe, container, false);
 
         int position=getArguments().getInt(KEY_POSITION, -1);
         String [] tip_linie = new String[] {"tramvai", "troleibuz", "autobuz"};
@@ -67,25 +67,16 @@ public class LiniiFragment extends Fragment {
         }
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(getActivity().getBaseContext(), R.layout.support_simple_spinner_dropdown_item, all_numar_linii_autobuz);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         if(position==0){
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.VISIBLE);
-            LinearLayout lTroleibuzt =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuzt.setVisibility(View.GONE);
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.GONE);
+            View tramvai=inflater.inflate(R.layout.tramvaie_panel, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.tramvai_spinner);
+            Spinner spinner1 = (Spinner) tramvai.findViewById(R.id.tramvai_spinner);
 
             spinner1.setAdapter(adapter);
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Cursor cursor = helper.getStatiiByLinie(parent.getItemAtPosition(position).toString());
+                    HashMap<String, String> cursor = liniiSiStatii.get(parent.getItemAtPosition(position).toString());
 
                     TableLayout tableLayout = (TableLayout) getActivity().findViewById(R.id.tableStatiiForLinie);
 
@@ -93,7 +84,7 @@ public class LiniiFragment extends Fragment {
 
                     tableLayout.removeAllViews();
 
-                    if (cursor.getCount() == 0) {
+                    if (cursor==null) {
                     } else {
 
                         TableRow tableRowHeader = new TableRow(getActivity().getBaseContext());
@@ -113,16 +104,16 @@ public class LiniiFragment extends Fragment {
                         tableLayout.addView(tableRowHeader);
 
 
-                        while (cursor.moveToNext()) {
+                        for(Map.Entry<String, String> entry: cursor.entrySet()) {
                             TableRow tableRow = new TableRow(getActivity().getBaseContext());
 
                             TextView numeStatieTv = new TextView(getActivity().getBaseContext());
-                            numeStatieTv.setText(cursor.getString(0));
+                            numeStatieTv.setText(entry.getKey());
                             numeStatieTv.setTextColor(Color.BLACK);
                             numeStatieTv.setTextSize(20);
 
                             TextView adresaStatieTv = new TextView(getActivity().getBaseContext());
-                            adresaStatieTv.setText(cursor.getString(1));
+                            adresaStatieTv.setText(entry.getValue());
                             adresaStatieTv.setTextColor(Color.BLACK);
                             adresaStatieTv.setTextSize(20);
 
@@ -132,7 +123,6 @@ public class LiniiFragment extends Fragment {
                             tableLayout.addView(tableRow);
 
                         }
-                        cursor.close();
                     }
                 }
                 @Override
@@ -140,22 +130,18 @@ public class LiniiFragment extends Fragment {
 
                 }
             });
+            return tramvai;
         }else if(position==1){
 
-            LinearLayout lTroleibuz =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuz.setVisibility(View.VISIBLE);
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.GONE);
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.GONE);
+            View troleibuz=inflater.inflate(R.layout.troleibuze_panel, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.troleibuz_spinner);
+            Spinner spinner1 = (Spinner) troleibuz.findViewById(R.id.troleibuz_spinner);
             spinner1.setAdapter(adapter2);
 
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Cursor cursor = helper.getStatiiByLinie(parent.getItemAtPosition(position).toString());
+                    HashMap<String, String> cursor = liniiSiStatii.get(parent.getItemAtPosition(position).toString());
 
                     TableLayout tableLayout = (TableLayout)getActivity().findViewById(R.id.tableStatiiForLinie2);
 
@@ -163,7 +149,7 @@ public class LiniiFragment extends Fragment {
 
                     tableLayout.removeAllViews();
 
-                    if(cursor.getCount()==0){} else{
+                    if(cursor==null){} else{
 
                         TableRow tableRowHeader = new TableRow(getActivity().getBaseContext());
 
@@ -181,16 +167,16 @@ public class LiniiFragment extends Fragment {
                         tableRowHeader.addView(adresaStatieTvHeader);
 
 
-                        while(cursor.moveToNext()) {
+                        for(Map.Entry<String, String> entry: cursor.entrySet()) {
                             TableRow tableRow = new TableRow(getActivity().getBaseContext());
 
                             TextView numeStatieTv = new TextView(getActivity().getBaseContext());
-                            numeStatieTv.setText(cursor.getString(0));
+                            numeStatieTv.setText(entry.getKey());
                             numeStatieTv.setTextColor(Color.BLACK);
                             numeStatieTv.setTextSize(20);
 
                             TextView adresaStatieTv = new TextView(getActivity().getBaseContext());
-                            adresaStatieTv.setText(cursor.getString(1));
+                            adresaStatieTv.setText(entry.getValue());
                             adresaStatieTv.setTextColor(Color.BLACK);
                             adresaStatieTv.setTextSize(20);
 
@@ -200,30 +186,25 @@ public class LiniiFragment extends Fragment {
                             tableLayout.addView(tableRow);
 
                         }
-                        cursor.close();
-                    }}
+                    }
+                }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
-
+            return troleibuz;
         } else {
-            LinearLayout lBus =(LinearLayout)result.findViewById(R.id.liniiAutobuz);
-            lBus.setVisibility(View.VISIBLE);
-            LinearLayout lTramvai =(LinearLayout)result.findViewById(R.id.liniiTramvai);
-            lTramvai.setVisibility(View.GONE);
-            LinearLayout lTroleibuzt =(LinearLayout)result.findViewById(R.id.liniiTroleibuz);
-            lTroleibuzt.setVisibility(View.GONE);
+            View autobuze=inflater.inflate(R.layout.autobuze_panel, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.bus_spinner);
+            Spinner spinner1 = (Spinner) autobuze.findViewById(R.id.bus_spinner);
             spinner1.setAdapter(adapter3);
 
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Cursor cursor = helper.getStatiiByLinie(parent.getItemAtPosition(position).toString());
+                    HashMap<String, String> cursor = liniiSiStatii.get(parent.getItemAtPosition(position).toString());
 
                     TableLayout tableLayout = (TableLayout)getActivity().findViewById(R.id.tableStatiiForLinie3);
 
@@ -231,7 +212,7 @@ public class LiniiFragment extends Fragment {
 
                     tableLayout.removeAllViews();
 
-                    if(cursor.getCount()==0){} else{
+                    if(cursor==null){} else{
 
                         TableRow tableRowHeader = new TableRow(getActivity().getBaseContext());
 
@@ -249,16 +230,16 @@ public class LiniiFragment extends Fragment {
                         tableRowHeader.addView(adresaStatieTvHeader);
 
 
-                        while(cursor.moveToNext()) {
+                        for(Map.Entry<String, String> entry: cursor.entrySet()) {
                             TableRow tableRow = new TableRow(getActivity().getBaseContext());
 
                             TextView numeStatieTv = new TextView(getActivity().getBaseContext());
-                            numeStatieTv.setText(cursor.getString(0));
+                            numeStatieTv.setText(entry.getKey());
                             numeStatieTv.setTextColor(Color.BLACK);
                             numeStatieTv.setTextSize(20);
 
                             TextView adresaStatieTv = new TextView(getActivity().getBaseContext());
-                            adresaStatieTv.setText(cursor.getString(1));
+                            adresaStatieTv.setText(entry.getValue());
                             adresaStatieTv.setTextColor(Color.BLACK);
                             adresaStatieTv.setTextSize(20);
 
@@ -268,7 +249,6 @@ public class LiniiFragment extends Fragment {
                             tableLayout.addView(tableRow);
 
                         }
-                        cursor.close();
                     }}
 
                 @Override
@@ -277,8 +257,7 @@ public class LiniiFragment extends Fragment {
                 }
             });
 
-
+            return autobuze;
         }
-        return(result);
     }
 }
