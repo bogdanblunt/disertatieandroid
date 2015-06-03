@@ -2,6 +2,7 @@ package com.example.user.master;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
 
+import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 import com.example.user.master.utils.SlidingTabLayout;
 import com.example.user.master.utils.ViewPagerAdapter;
 
 
 public class PlanActivity extends ActionBarActivity {
+
+    static DisertatieDatabaseHelper helper = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class PlanActivity extends ActionBarActivity {
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+
+        helper = new DisertatieDatabaseHelper(getBaseContext());
 
     }
 
@@ -90,6 +96,12 @@ public class PlanActivity extends ActionBarActivity {
 
             AlertDialog alert11 = builder1.create();
             alert11.show();
+        }else {
+
+            Cursor cursorLiniiP = helper.getLiniiByStatie(statieP);
+            Cursor cursorLiniiS = helper.getLiniiByStatie(statieS);
+
+            System.out.println(cursorLiniiP.getCount());
         }
 
 
