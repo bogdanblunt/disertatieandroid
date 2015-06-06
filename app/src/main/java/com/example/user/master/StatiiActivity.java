@@ -1,9 +1,22 @@
 package com.example.user.master;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.TableLayout;
+import android.widget.TextView;
+
+import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 
 public class StatiiActivity extends ActionBarActivity {
@@ -12,6 +25,25 @@ public class StatiiActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statii);
+
+        AutoCompleteTextView autoCompleteStatii = (AutoCompleteTextView)findViewById(R.id.autocompleteStatii);
+        final DisertatieDatabaseHelper disertatieDatabaseHelper = new DisertatieDatabaseHelper(this);
+        List<String> statiiNumarList = disertatieDatabaseHelper.getNumeStatiiList();
+        ArrayAdapter<String> statiiArrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, statiiNumarList);
+        autoCompleteStatii.setAdapter(statiiArrayAdapter);
+        autoCompleteStatii.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                List<String> liniiForStatie = disertatieDatabaseHelper.getLiniiByStatie(parent.getItemAtPosition(position).toString());
+
+                TextView liniiByStatiiTv = (TextView)findViewById(R.id.liniiByStatiiResult);
+                liniiByStatiiTv.setText(liniiForStatie.toString());
+//                for (String linie : liniiForStatie) {
+//
+//                }
+            }
+        });
     }
 
 

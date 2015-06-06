@@ -97,11 +97,11 @@ public class PlanActivity extends ActionBarActivity {
             AlertDialog alert11 = builder1.create();
             alert11.show();
         }else {
-
-            Cursor cursorLiniiP = helper.getLiniiByStatie(statieP);
-            Cursor cursorLiniiS = helper.getLiniiByStatie(statieS);
-
-            System.out.println(cursorLiniiP.getCount());
+//
+//            Cursor cursorLiniiP = helper.getLiniiByStatie(statieP);
+//            Cursor cursorLiniiS = helper.getLiniiByStatie(statieS);
+//
+//            System.out.println(cursorLiniiP.getCount());
         }
 
 
