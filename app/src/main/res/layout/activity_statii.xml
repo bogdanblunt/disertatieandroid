@@ -36,7 +36,6 @@
         <com.example.user.master.utils.AutoCompleteDropdownWidget android:id="@+id/autocompleteStatii"
             android:layout_height="wrap_content"
             android:layout_width="350dp"
-            android:completionThreshold="@integer/abc_config_activityShortDur"
             />
 
         <TextView
