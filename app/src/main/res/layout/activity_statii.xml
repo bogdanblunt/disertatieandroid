@@ -33,7 +33,7 @@
             android:textSize="28dp"
             android:textColor="#4A7023" />
 
-        <com.example.user.master.utils.AutoCompleteDropdown android:id="@+id/autocompleteStatii"
+        <com.example.user.master.utils.AutoCompleteDropdownWidget android:id="@+id/autocompleteStatii"
             android:layout_height="wrap_content"
             android:layout_width="350dp"
             android:completionThreshold="@integer/abc_config_activityShortDur"
