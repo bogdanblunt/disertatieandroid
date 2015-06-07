@@ -1,6 +1,7 @@
 package com.example.user.master;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
@@ -64,6 +65,7 @@ public class StatiiActivity extends ActionBarActivity {
                     for(String statie : statiiList){
                         TextView tvLinieWithStatii = new TextView(getBaseContext());
                         tvLinieWithStatii.setText(statie);
+                        if(statie.equals(parent.getItemAtPosition(position).toString())) tvLinieWithStatii.setTypeface(Typeface.DEFAULT_BOLD);
                         tvLinieWithStatii.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                         tvLinieWithStatii.setTextColor(Color.BLACK);
                         statiiContainer.addView(tvLinieWithStatii, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
