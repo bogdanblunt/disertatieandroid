@@ -1,20 +1,16 @@
 package com.example.user.master;
 
-import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
