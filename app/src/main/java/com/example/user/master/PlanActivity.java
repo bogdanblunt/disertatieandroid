@@ -16,6 +16,12 @@ import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 import com.example.user.master.utils.SlidingTabLayout;
 import com.example.user.master.utils.ViewPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 
 public class PlanActivity extends ActionBarActivity {
 
@@ -97,11 +103,95 @@ public class PlanActivity extends ActionBarActivity {
             AlertDialog alert11 = builder1.create();
             alert11.show();
         }else {
-//
-//            Cursor cursorLiniiP = helper.getLiniiByStatie(statieP);
-//            Cursor cursorLiniiS = helper.getLiniiByStatie(statieS);
-//
-//            System.out.println(cursorLiniiP.getCount());
+
+           List<String> cursorLiniiP = helper.getLiniiByStatie(statieP);
+           List<String> cursorLiniiS = helper.getLiniiByStatie(statieS);
+           List<String> result = new ArrayList<String>();
+
+           int ok=0;
+           int aux=1000;
+           String linieDirecta="";
+
+
+
+
+          for (String liniiP : cursorLiniiP){
+              for(String liniiS : cursorLiniiS){
+
+                  if(liniiP.equals(liniiS)){
+                      ok=1;
+                      result.add(liniiP);
+                      int timp = helper.getTimpByLinie(liniiP);
+                      if(timp<aux){
+                          aux = timp;
+                          linieDirecta=liniiP;
+                      }
+                  }
+              }
+          }
+
+            if(ok==1){
+
+                LinkedHashMap<String, Integer> toateStatiile = new LinkedHashMap<>();
+
+                System.out.println("Sugestia este:");
+                System.out.println(linieDirecta);
+                System.out.println("Timpul mediu de asteptare in statie");
+                System.out.println(aux);
+
+                System.out.println("Statiile prin care trece: ");
+
+                Cursor c = helper.getStatiiByLinie(linieDirecta);
+                while(c.moveToNext()){
+                   toateStatiile.put(c.getString(0), c.getInt(2));
+                }
+
+                int sP = toateStatiile.get(statieP);
+                int sS = toateStatiile.get(statieS);
+
+                if(sS > sP) {
+
+                    for(String s : toateStatiile.keySet()){
+                        int id = toateStatiile.get(s);
+                        if(id<= sS && id >= sP){
+                            System.out.println(s);
+                        }
+                    }
+                } else {
+                    ArrayList<String> reverseList = new ArrayList<>();
+                    reverseList.addAll(toateStatiile.keySet());
+                    Collections.reverse(reverseList);
+
+                    for(String s : reverseList){
+                        int id = toateStatiile.get(s);
+                        if(id<= sP && id >= sS){
+                            System.out.println(s);
+                        }
+                    }
+                                  }
+
+                System.out.println("Alte sugestii:");
+
+                if(result.size() > 1){
+
+                    for(String i: result){
+
+                        if(!(i.equals(linieDirecta))){
+
+                            System.out.println(i);
+                        }
+                    }
+                }
+
+
+            }
+            else {
+
+
+
+           }
+
+
         }
 
 

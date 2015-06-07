@@ -109,7 +109,7 @@ public class DisertatieDatabaseHelper {
 
     public Cursor getStatiiByLinie(String numarLinie){
         return database.rawQuery("SELECT s."+ TIMETRACKER_COLUMN_STATII_NUME + ", s." +
-                TIMETRACKER_COLUMN_STATII_DESCRIERE +" FROM " + TABLE_NAME_STATII + " s, "
+                TIMETRACKER_COLUMN_STATII_DESCRIERE + ", leg." + TIMETRACKER_COLUMN_ID +" FROM " + TABLE_NAME_STATII + " s, "
                 + TABLE_NAME_LEGATURI+ " leg, " + TABLE_NAME_LINII  + " lin WHERE leg." +
                 TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + "=s." + TIMETRACKER_COLUMN_ID + " AND leg." +
                 TIMETRACKER_COLUMN_lEGATURI_IDLINIE + "=lin." + TIMETRACKER_COLUMN_ID +
@@ -134,7 +134,7 @@ public class DisertatieDatabaseHelper {
     public List<String> getLiniiByStatie(String numeStatie){
         List<String> linii = new ArrayList<>();
         Cursor cursor =  database.rawQuery("SELECT l."+ TIMETRACKER_COLUMN_LINII_NUMAR
-                 +" FROM " + TABLE_NAME_LINII + " l, "
+                +" FROM " + TABLE_NAME_LINII + " l, "
                 + TABLE_NAME_LEGATURI+ " leg, " + TABLE_NAME_STATII  + " s WHERE leg." +
                 TIMETRACKER_COLUMN_lEGATURI_IDLINIE + "=l." + TIMETRACKER_COLUMN_ID + " AND leg." +
                 TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + "=s." + TIMETRACKER_COLUMN_ID +
@@ -178,4 +178,28 @@ public class DisertatieDatabaseHelper {
         }
         return statii;
     }
+
+    public Integer getTimpByLinie(String numeLinie){
+        int timp=0;
+        Cursor cursor =  database.rawQuery("SELECT l."+ TIMETRACKER_COLUMN_LINII_INTERVALSUCCEDARE
+                +" FROM " + TABLE_NAME_LINII + " l "+
+                " WHERE l." + TIMETRACKER_COLUMN_LINII_NUMAR + "=?", new String[] {numeLinie});
+
+        if(cursor.moveToNext())
+        timp = cursor.getInt(0);
+        return timp;
+    }
+
+    public Integer getIdByNumeStatie (String numeStatie){
+        int id=0;
+        Cursor cursor =  database.rawQuery("SELECT s."+ TIMETRACKER_COLUMN_ID
+                +" FROM " + TABLE_NAME_STATII + " s "+
+                " WHERE s." + TIMETRACKER_COLUMN_STATII_NUME + "=?", new String[] {numeStatie});
+
+        if(cursor.moveToNext())
+            id = cursor.getInt(0);
+        return id;
+    }
+
+
 }
