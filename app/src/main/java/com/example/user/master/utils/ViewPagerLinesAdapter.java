@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by User on 29.04.2015.
@@ -16,7 +17,7 @@ public class ViewPagerLinesAdapter extends FragmentPagerAdapter {
 
     private CharSequence[] titles = {"Tramvaie", "Troleibuze", "Autobuze"};
     private int noOfTabs = 3;
-    HashMap<String, HashMap<String, String>> liniiSiStatii = null;
+    HashMap<String, LinkedHashMap<String, String>> liniiSiStatii = null;
     static DisertatieDatabaseHelper helper = null;
 
     public ViewPagerLinesAdapter(FragmentManager fmg, Context c){

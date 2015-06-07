@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.user.master.R;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +31,10 @@ public class LiniiFragment extends Fragment {
     static List<String> all_numar_linii_tramvai = null;
     static List<String> all_numar_linii_troleibuz = null;
     static List<String> all_numar_linii_autobuz = null;
-    static HashMap<String, HashMap<String, String>> liniiSiStatii = null;
+    static HashMap<String, LinkedHashMap<String, String>> liniiSiStatii = null;
 
 
-    static LiniiFragment newInstance(int position, HashMap<String, HashMap<String, String>> data) {
+    static LiniiFragment newInstance(int position, HashMap<String, LinkedHashMap<String, String>> data) {
 
         LiniiFragment frag=new LiniiFragment();
         Bundle args=new Bundle();
