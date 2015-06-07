@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:layout_gravity="center"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:padding="10dp">
 
         <TextView
 
@@ -30,30 +31,34 @@
             android:textStyle="bold"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="50dp"
-            android:textSize="28dp"
+            android:textSize="28sp"
             android:textColor="#4A7023" />
 
         <com.example.user.master.utils.AutoCompleteDropdownWidget android:id="@+id/autocompleteStatii"
             android:layout_height="wrap_content"
             android:layout_width="350dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:singleLine="true"
+            android:hint="@string/statii_autocomplete_hint"
             />
 
-        <TextView
-            android:id="@+id/liniiByStatiiResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical" >
 
-        <!--<TableLayout-->
-            <!--android:id="@+id/tableLiniiForStatie"-->
-            <!--android:layout_gravity="center_horizontal|center_vertical"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_marginLeft="100dp"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!-->-->
-        <!--</TableLayout>-->
+            <LinearLayout
+                android:id="@+id/statiiPanelContainer"
+                android:layout_margin="20dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0">
+
+            </LinearLayout>
+
+        </ScrollView>
+
      </LinearLayout>
 
     </FrameLayout>

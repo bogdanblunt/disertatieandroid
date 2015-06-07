@@ -33,5 +33,6 @@
 
     <string name="title_activity_statii">StatiiActivity</string>
     <string name="title_activity_linii">LiniiActivity</string>
+    <string name="statii_autocomplete_hint">Statia dv.</string>
 
 </resources>
