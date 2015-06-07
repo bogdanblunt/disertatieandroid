@@ -16,6 +16,7 @@ import com.example.user.master.dbUtils.DisertatieDatabaseHelper;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -35,13 +36,14 @@ public class StatiiActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                List<String> liniiForStatie = disertatieDatabaseHelper.getLiniiByStatie(parent.getItemAtPosition(position).toString());
+                HashMap<String, List<String>> liniiForStatie = disertatieDatabaseHelper.getLiniiAndStatiiByStatie(parent.getItemAtPosition(position).toString());//getLiniiByStatie(parent.getItemAtPosition(position).toString());
 
-                TextView liniiByStatiiTv = (TextView)findViewById(R.id.liniiByStatiiResult);
-                liniiByStatiiTv.setText(liniiForStatie.toString());
-//                for (String linie : liniiForStatie) {
-//
-//                }
+
+                for (String linie : liniiForStatie.keySet()) {
+                    List<String> statiiList = liniiForStatie.get(linie);
+                    TextView liniiByStatiiTv = (TextView)findViewById(R.id.liniiByStatiiResult);
+                    liniiByStatiiTv.setText(statiiList.toString());
+                }
             }
         });
     }

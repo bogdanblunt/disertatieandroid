@@ -146,6 +146,29 @@ public class DisertatieDatabaseHelper {
         return linii;
     }
 
+    public HashMap<String, List<String>> getLiniiAndStatiiByStatie(String numeStatie){
+        HashMap<String, List<String>> liniiWithStatii = new HashMap<>();
+        Cursor cursor =  database.rawQuery("SELECT l."+ TIMETRACKER_COLUMN_LINII_NUMAR
+                +" FROM " + TABLE_NAME_LINII + " l, "
+                + TABLE_NAME_LEGATURI+ " leg, " + TABLE_NAME_STATII  + " s WHERE leg." +
+                TIMETRACKER_COLUMN_lEGATURI_IDLINIE + "=l." + TIMETRACKER_COLUMN_ID + " AND leg." +
+                TIMETRACKER_COLUMN_lEGATURI_IDSTATIE + "=s." + TIMETRACKER_COLUMN_ID +
+                " AND s." + TIMETRACKER_COLUMN_STATII_NUME + "=?", new String[] {numeStatie});
+
+        while(cursor.moveToNext()){
+            Cursor cursorLinii = getStatiiByLinie(cursor.getString(0));
+
+            while(cursorLinii.moveToNext()){
+                if(liniiWithStatii.get(cursor.getString(0)) == null){
+                    liniiWithStatii.put(cursor.getString(0), new ArrayList<String>());
+                }
+                liniiWithStatii.get(cursor.getString(0)).add(cursorLinii.getString(0));
+            }
+        }
+
+        return liniiWithStatii;
+    }
+
     public List<String> getNumeStatiiList(){
         List<String> statii = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT " + TIMETRACKER_COLUMN_STATII_NUME + " FROM " + TABLE_NAME_STATII, null);
