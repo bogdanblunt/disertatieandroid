@@ -152,13 +152,13 @@ public class PlanActivity extends ActionBarActivity {
             if(ok==1){
 
                 LinkedHashMap<String, Integer> toateStatiile = new LinkedHashMap<>();
+                String dialogMessage = "";
+                dialogMessage+="Sugestia este: "; System.out.println("Sugestia este:");
+                dialogMessage+=linieDirecta + "\n"; System.out.println(linieDirecta);
+                dialogMessage+="Timpul mediu de asteptare in statie: "; System.out.println("Timpul mediu de asteptare in statie");
+                dialogMessage+=aux + "\n"; System.out.println(aux);
 
-                System.out.println("Sugestia este:");
-                System.out.println(linieDirecta);
-                System.out.println("Timpul mediu de asteptare in statie");
-                System.out.println(aux);
-
-                System.out.println("Statiile prin care trece: ");
+                dialogMessage+="Statiile prin care trece: "; System.out.println("Statiile prin care trece: ");
 
                 Cursor c = helper.getStatiiByLinie(linieDirecta);
                 while(c.moveToNext()){
@@ -167,14 +167,18 @@ public class PlanActivity extends ActionBarActivity {
 
                 int sP = toateStatiile.get(statieP);
                 int sS = toateStatiile.get(statieS);
-
+                boolean firstElem = true;
                 if(sS > sP) {
-
                     for(String s : toateStatiile.keySet()){
                         int id = toateStatiile.get(s);
                         if(id<= sS && id >= sP){
-                            System.out.println(s);
+                            if(firstElem==true) {
+                                dialogMessage+=s; System.out.println(s);
+                            } else {
+                                dialogMessage+=", " + s; System.out.println(s);
+                            }
                         }
+                        firstElem = false;
                     }
                 } else {
                     ArrayList<String> reverseList = new ArrayList<>();
@@ -184,24 +188,47 @@ public class PlanActivity extends ActionBarActivity {
                     for(String s : reverseList){
                         int id = toateStatiile.get(s);
                         if(id<= sP && id >= sS){
-                            System.out.println(s);
+
+                            if(firstElem==true) {
+                                dialogMessage+=s; System.out.println(s);
+                            } else {
+                                dialogMessage+=", " + s; System.out.println(s);
+                            }
                         }
-                    }
-                                  }
-
-                System.out.println("Alte sugestii:");
-
-                if(result.size() > 1){
-
-                    for(String i: result){
-
-                        if(!(i.equals(linieDirecta))){
-
-                            System.out.println(i);
-                        }
+                        firstElem = false;
                     }
                 }
 
+                if(result.size() > 1){
+                    dialogMessage+="\n";
+                    dialogMessage+="Alte sugestii: ";
+                    System.out.println("Alte sugestii:");
+                    boolean firstAlt = true;
+                    for(String i: result){
+
+                        if(!(i.equals(linieDirecta))){
+                            if(firstAlt==true) {
+                                dialogMessage+=i; System.out.println(i);
+                            } else {
+                                dialogMessage+=", " + i; System.out.println(i);
+                            }
+                        }
+                        firstAlt=false;
+                    }
+                }
+                dialogMessage+="\n";
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
+                builder1.setMessage(dialogMessage);
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("Close",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
 
             }
             else {
