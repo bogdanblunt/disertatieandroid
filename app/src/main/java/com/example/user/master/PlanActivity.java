@@ -19,8 +19,10 @@ import com.example.user.master.utils.ViewPagerAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 
 public class PlanActivity extends ActionBarActivity {
@@ -107,6 +109,23 @@ public class PlanActivity extends ActionBarActivity {
            List<String> cursorLiniiP = helper.getLiniiByStatie(statieP);
            List<String> cursorLiniiS = helper.getLiniiByStatie(statieS);
            List<String> result = new ArrayList<String>();
+           List<String> l1 = new ArrayList<>();
+           List<String> l2 = new ArrayList<>();
+           List<Integer> l3 = new ArrayList<>();
+           List<Integer> l4 = new ArrayList<>();
+           List<String> l5 = new ArrayList<>();
+           List<String> l6 = new ArrayList<>();
+           List<String> l7 = new ArrayList<>();
+           List<String> l8 = new ArrayList<>();
+           LinkedHashMap<String,Integer> statiiDePlecare = new LinkedHashMap<>();
+           List<String> statiiDeSosire = new ArrayList<>();
+           Set<String> setLiniiXYZ = new HashSet<>();
+           Set<String> statiiPeLiniiP = new HashSet<>();
+           Set<String> statiiPeLiniiS = new HashSet<>();
+           Set<String> statiiComune = new HashSet<>();
+           String st1 = "";
+           String st2 = "";
+           Integer ok7 = 0;
 
            int ok=0;
            int aux=1000;
@@ -186,14 +205,181 @@ public class PlanActivity extends ActionBarActivity {
 
             }
             else {
+            for (String p: cursorLiniiP){
+                List<String> st = new ArrayList<>();
+                Cursor c = helper.getStatiiByLinie(p);
+                while(c.moveToNext()){
+                    st.add(c.getString(0));
+                }
+                statiiPeLiniiP.addAll(st);
+
+            }
+                //for(String s: statiiPeLiniiP) System.out.println(s);
+
+                for (String p: cursorLiniiS){
+                    List<String> st = new ArrayList<>();
+                    Cursor c = helper.getStatiiByLinie(p);
+                    while(c.moveToNext()){
+                        st.add(c.getString(0));
+                    }
+                    statiiPeLiniiS.addAll(st);
+
+                }
+
+                boolean b = false;
+                for(String s1 : statiiPeLiniiP)
+                    for(String s2 : statiiPeLiniiS){
+                        if((s1.equals(s2)) && (!s1.equals(statieP)) && (!s1.equals(statieS))){
+
+                            b = true;
+                            statiiComune.add(s1);
+                        }
+                   }
+
+                if(b==true){
+
+                    for(String stat : statiiComune) {
+                        l3.clear();
+                        l4.clear();
+                        l5.clear();
+                        l6.clear();
+                        l1=helper.getLiniiByStatie(stat);   //toate liniile care au si statia de legatura
 
 
+                        for(String z : l1){
 
-           }
+                            if(setLiniiXYZ.contains(z))
+                            {
+                                continue;
+                            }
+
+                            Cursor c = helper.getStatiiByLinie(z);
+                            while(c.moveToNext()){
+                               statiiDePlecare.put(c.getString(0), c.getInt(2));
+                            }
+
+                           //iau toate statiile care se gasesc pe liniile de mai sus
+
+                            ArrayList<String> statiiPl = new ArrayList<>();
+                            statiiPl.addAll(statiiDePlecare.keySet());
+
+                            for(String r : statiiPl){
+
+                                if(r.equals(statieP)) {
+
+                                    l3.add(helper.getTimpByLinie(z));
+                                    l5.add(z);
+                                    l7.add(z);
+
+                                }
+
+                                if(r.equals(statieS)){
+
+                                    l4.add(helper.getTimpByLinie(z));
+                                    l6.add(z);
+                                    l8.add(z);
+                                }
+
+                            }
+
+                            setLiniiXYZ.add(z);
+                        }
+
+                        Integer suma=1000;
+                        Integer se=0;
+
+                        for(Integer r=0;r<l3.size();r++)
+                            for(Integer t=0;t<l4.size();t++){
+
+                                se = l3.get(r) +l4.get(t);
+
+                                if(se<suma)
+                                {
+                                    suma = se;
+                                    st1 = l5.get(r);
+                                    st2 = l6.get(t);
+                                }
+
+                            }
+                        if(ok7==0){
+
+                            System.out.println("Se pleaca cu: ");
+
+                            System.out.println(st1);
+                            System.out.println("Se trece prin statiile:");
+                            LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
+
+                            Cursor c2 = helper.getStatiiByLinie(st1);
+                            while(c2.moveToNext()){
+                                toateStatile.put(c2.getString(0), c2.getInt(2));
+                            }
+
+                            int sPs = toateStatile.get(statieP);
+                            int sSs = toateStatile.get(stat);
+
+                            if(sSs > sPs) {
+
+                                for(String s : toateStatile.keySet()){
+                                    int id = toateStatile.get(s);
+                                    if(id<= sSs && id >= sPs){
+                                        System.out.println(s);
+                                    }
+                                }
+                            } else {
+                                ArrayList<String> reverseList = new ArrayList<>();
+                                reverseList.addAll(toateStatile.keySet());
+                                Collections.reverse(reverseList);
+
+                                for(String s : reverseList){
+                                    int id = toateStatile.get(s);
+                                    if(id<= sPs && id >= sSs){
+                                        System.out.println(s);
+                                    }
+                                }
+                            }
+
+                           System.out.println("Se schimba in: ");
+                           System.out.println(stat);
+                           System.out.println("Se ajunge cu: ");
+                           System.out.println(st2);
+
+                           System.out.println("Se trece prin statiile: ");
+
+                           LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
+
+                           Cursor c3 = helper.getStatiiByLinie(st2);
+                            while(c3.moveToNext()){
+                                toateStatile2.put(c3.getString(0), c3.getInt(2));
+                            }
+
+                            int sPs1 = toateStatile2.get(stat);
+                            int sSs1 = toateStatile2.get(statieS);
+
+                            if(sSs1 > sPs1) {
+
+                                for(String s : toateStatile2.keySet()){
+                                    int id = toateStatile2.get(s);
+                                    if(id<= sSs1 && id >= sPs1){
+                                        System.out.println(s);
+                                    }
+                                }
+                            } else {
+                                ArrayList<String> reverseList = new ArrayList<>();
+                                reverseList.addAll(toateStatile2.keySet());
+                                Collections.reverse(reverseList);
+
+                                for(String s : reverseList){
+                                    int id = toateStatile2.get(s);
+                                    if(id<= sPs1 && id >= sSs1){
+                                        System.out.println(s);
+                                    }
 
 
+           }}
+            System.out.println("Timpul mediu total de asteptare in statii:"+ suma+"  minute");
+
+            ok7=1;
         }
+        }}}}}}
 
 
-    }
-}
