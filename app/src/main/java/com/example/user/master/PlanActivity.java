@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +67,13 @@ public class PlanActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_plan, menu);
         return true;
+    }
+
+    private String isHead(String statieCurr, String statieP, String statieS) {
+        if(statieP.equals(statieCurr) || statieS.equals(statieCurr)) {
+            return "<b>" + statieCurr + "</b>";
+        }
+        return statieCurr;
     }
 
     @Override
@@ -154,9 +162,9 @@ public class PlanActivity extends ActionBarActivity {
                 LinkedHashMap<String, Integer> toateStatiile = new LinkedHashMap<>();
                 String dialogMessage = "";
                 dialogMessage+="Sugestia este: "; System.out.println("Sugestia este:");
-                dialogMessage+=linieDirecta + "\n"; System.out.println(linieDirecta);
+                dialogMessage+=linieDirecta + "<br/>"; System.out.println(linieDirecta);
                 dialogMessage+="Timpul mediu de asteptare in statie: "; System.out.println("Timpul mediu de asteptare in statie");
-                dialogMessage+=aux + "\n"; System.out.println(aux);
+                dialogMessage+=aux + "<br/>"; System.out.println(aux);
 
                 dialogMessage+="Statiile prin care trece: "; System.out.println("Statiile prin care trece: ");
 
@@ -173,12 +181,12 @@ public class PlanActivity extends ActionBarActivity {
                         int id = toateStatiile.get(s);
                         if(id<= sS && id >= sP){
                             if(firstElem==true) {
-                                dialogMessage+=s; System.out.println(s);
+                                dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
                             } else {
-                                dialogMessage+=", " + s; System.out.println(s);
+                                dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
                             }
+                            firstElem = false;
                         }
-                        firstElem = false;
                     }
                 } else {
                     ArrayList<String> reverseList = new ArrayList<>();
@@ -188,38 +196,36 @@ public class PlanActivity extends ActionBarActivity {
                     for(String s : reverseList){
                         int id = toateStatiile.get(s);
                         if(id<= sP && id >= sS){
-
                             if(firstElem==true) {
-                                dialogMessage+=s; System.out.println(s);
+                                dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
                             } else {
-                                dialogMessage+=", " + s; System.out.println(s);
+                                dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
                             }
+                            firstElem = false;
                         }
-                        firstElem = false;
                     }
                 }
 
                 if(result.size() > 1){
-                    dialogMessage+="\n";
+                    dialogMessage+="<br/>";
                     dialogMessage+="Alte sugestii: ";
                     System.out.println("Alte sugestii:");
                     boolean firstAlt = true;
                     for(String i: result){
-
                         if(!(i.equals(linieDirecta))){
                             if(firstAlt==true) {
                                 dialogMessage+=i; System.out.println(i);
                             } else {
                                 dialogMessage+=", " + i; System.out.println(i);
                             }
+                            firstAlt=false;
                         }
-                        firstAlt=false;
                     }
                 }
-                dialogMessage+="\n";
+                dialogMessage+="<br/>";
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
-                builder1.setMessage(dialogMessage);
                 builder1.setCancelable(true);
+                builder1.setMessage(Html.fromHtml(dialogMessage));
                 builder1.setPositiveButton("Close",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
