@@ -139,23 +139,19 @@ public class PlanActivity extends ActionBarActivity {
            int aux=1000;
            String linieDirecta="";
 
-
-
-
-          for (String liniiP : cursorLiniiP){
-              for(String liniiS : cursorLiniiS){
-
-                  if(liniiP.equals(liniiS)){
-                      ok=1;
-                      result.add(liniiP);
-                      int timp = helper.getTimpByLinie(liniiP);
-                      if(timp<aux){
-                          aux = timp;
-                          linieDirecta=liniiP;
+              for (String liniiP : cursorLiniiP){
+                  for(String liniiS : cursorLiniiS){
+                      if(liniiP.equals(liniiS)){
+                          ok=1;
+                          result.add(liniiP);
+                          int timp = helper.getTimpByLinie(liniiP);
+                          if(timp<aux){
+                              aux = timp;
+                              linieDirecta=liniiP;
+                          }
                       }
                   }
               }
-          }
 
             if(ok==1){
 
@@ -236,17 +232,17 @@ public class PlanActivity extends ActionBarActivity {
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
 
-            }
-            else {
-            for (String p: cursorLiniiP){
-                List<String> st = new ArrayList<>();
-                Cursor c = helper.getStatiiByLinie(p);
-                while(c.moveToNext()){
-                    st.add(c.getString(0));
-                }
-                statiiPeLiniiP.addAll(st);
+            } else {
 
-            }
+                String dialogMessage = "";
+                for (String p: cursorLiniiP){
+                    List<String> st = new ArrayList<>();
+                    Cursor c = helper.getStatiiByLinie(p);
+                    while(c.moveToNext()){
+                        st.add(c.getString(0));
+                    }
+                    statiiPeLiniiP.addAll(st);
+                }
                 //for(String s: statiiPeLiniiP) System.out.println(s);
 
                 for (String p: cursorLiniiS){
@@ -277,7 +273,6 @@ public class PlanActivity extends ActionBarActivity {
                         l5.clear();
                         l6.clear();
                         l1=helper.getLiniiByStatie(stat);   //toate liniile care au si statia de legatura
-
 
                         for(String z : l1){
 
@@ -336,10 +331,10 @@ public class PlanActivity extends ActionBarActivity {
                             }
                         if(ok7==0){
 
-                            System.out.println("Se pleaca cu: ");
+                            dialogMessage+="Se pleaca cu: "; System.out.println("Se pleaca cu: ");
 
-                            System.out.println(st1);
-                            System.out.println("Se trece prin statiile:");
+                            dialogMessage+=st1 + "<br/>"; System.out.println(st1);
+                            dialogMessage+="Se trece prin statiile:"; System.out.println("Se trece prin statiile: ");
                             LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
 
                             Cursor c2 = helper.getStatiiByLinie(st1);
@@ -350,12 +345,18 @@ public class PlanActivity extends ActionBarActivity {
                             int sPs = toateStatile.get(statieP);
                             int sSs = toateStatile.get(stat);
 
+                            boolean firstElem = true;
                             if(sSs > sPs) {
-
                                 for(String s : toateStatile.keySet()){
                                     int id = toateStatile.get(s);
+
                                     if(id<= sSs && id >= sPs){
-                                        System.out.println(s);
+                                        if(firstElem==true) {
+                                            dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
+                                        } else {
+                                            dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
+                                        }
+                                        firstElem = false;
                                     }
                                 }
                             } else {
@@ -366,17 +367,23 @@ public class PlanActivity extends ActionBarActivity {
                                 for(String s : reverseList){
                                     int id = toateStatile.get(s);
                                     if(id<= sPs && id >= sSs){
-                                        System.out.println(s);
+                                        if(firstElem==true) {
+                                            dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
+                                        } else {
+                                            dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
+                                        }
+                                        firstElem = false;
                                     }
                                 }
                             }
+                            dialogMessage+= "<br/><br/>";
+                            dialogMessage+="Se schimba in: "; System.out.println("Se schimba in: ");
+                            dialogMessage+=stat + "<br/>"; System.out.println(stat);
+                            dialogMessage+= "<br/><br/>";
+                            dialogMessage+="Se ajunge cu: "; System.out.println("Se ajunge cu: ");
+                            dialogMessage+=st2 + "<br/>"; System.out.println(st2);
 
-                           System.out.println("Se schimba in: ");
-                           System.out.println(stat);
-                           System.out.println("Se ajunge cu: ");
-                           System.out.println(st2);
-
-                           System.out.println("Se trece prin statiile: ");
+                            dialogMessage+="Se trece prin statiile: "; System.out.println("Se trece prin statiile: ");
 
                            LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
 
@@ -387,13 +394,18 @@ public class PlanActivity extends ActionBarActivity {
 
                             int sPs1 = toateStatile2.get(stat);
                             int sSs1 = toateStatile2.get(statieS);
-
+                            firstElem = true;
                             if(sSs1 > sPs1) {
 
                                 for(String s : toateStatile2.keySet()){
                                     int id = toateStatile2.get(s);
                                     if(id<= sSs1 && id >= sPs1){
-                                        System.out.println(s);
+                                        if(firstElem==true) {
+                                            dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
+                                        } else {
+                                            dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
+                                        }
+                                        firstElem = false;
                                     }
                                 }
                             } else {
@@ -404,15 +416,37 @@ public class PlanActivity extends ActionBarActivity {
                                 for(String s : reverseList){
                                     int id = toateStatile2.get(s);
                                     if(id<= sPs1 && id >= sSs1){
-                                        System.out.println(s);
+                                        if(firstElem==true) {
+                                            dialogMessage+=isHead(s, statieP, statieS); System.out.println(s);
+                                        } else {
+                                            dialogMessage+=", " + isHead(s, statieP, statieS); System.out.println(s);
+                                        }
+                                        firstElem = false;
                                     }
+                                }
+                            }
+                            dialogMessage+= "<br/><br/>";
+                            dialogMessage+="Timpul mediu total de asteptare in statii: "+ suma+"  minute"; System.out.println("Timpul mediu total de asteptare in statii: "+ suma+"  minute");
 
+                            dialogMessage+="<br/>";
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
+                            builder1.setCancelable(true);
+                            builder1.setMessage(Html.fromHtml(dialogMessage));
+                            builder1.setPositiveButton("Close",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
 
-           }}
-            System.out.println("Timpul mediu total de asteptare in statii:"+ suma+"  minute");
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
 
-            ok7=1;
+                            ok7=1;
+                        }
+                    }
+                }
+            }
         }
-        }}}}}}
-
-
+    }
+}
