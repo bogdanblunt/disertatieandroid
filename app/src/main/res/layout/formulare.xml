@@ -162,6 +162,7 @@
                 />
 
             <RadioGroup
+                android:id="@+id/radioGroupPrefer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -169,12 +170,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unicaLinieRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
                 <RadioButton android:id="@+id/linieRapidaRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/multipleLiniiRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
             </RadioGroup>
 
         </LinearLayout>
@@ -196,6 +197,7 @@
                 />
 
             <RadioGroup
+                android:id="@+id/radioGroupRapid"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -203,22 +205,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tramvaiRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
                 <RadioButton android:id="@+id/troleibuzRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/troleibuzRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
                 <RadioButton android:id="@+id/autobuzRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/autobuzRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
                 <RadioButton android:id="@+id/nimicRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/nimicRadio"
-                    android:onClick="onRadioButtonClicked"/>
+                    />
             </RadioGroup>
 
         </LinearLayout>
@@ -285,6 +287,7 @@
             android:textColor="#4A7023"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginTop="10dp"
+            android:onClick="planificaAvansat"
             />
 
     </LinearLayout>
