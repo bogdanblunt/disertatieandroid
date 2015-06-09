@@ -32,7 +32,6 @@ public class FormulareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        View result=inflater.inflate(R.layout.formulare, container, false);
 
         int position=getArguments().getInt(KEY_POSITION, -1);
 
@@ -46,39 +45,29 @@ public class FormulareFragment extends Fragment {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if(position==0){
-            LinearLayout lSimplu =(LinearLayout)result.findViewById(R.id.planSimplu);
-            lSimplu.setVisibility(View.VISIBLE);
-            LinearLayout lAvansat =(LinearLayout)result.findViewById(R.id.planAvansat);
-            lAvansat.setVisibility(View.GONE);
+            View form_simplu=inflater.inflate(R.layout.formular_simplu, container, false);
 
-            Spinner spinner1 = (Spinner) result.findViewById(R.id.plecareSimplu_spinner);
+            Spinner spinner1 = (Spinner) form_simplu.findViewById(R.id.plecareSimplu_spinner);
 
-            Spinner spinner2 = (Spinner) result.findViewById(R.id.sosireSimplu_spinner);
+            Spinner spinner2 = (Spinner) form_simplu.findViewById(R.id.sosireSimplu_spinner);
 
             spinner1.setAdapter(adapter);
             spinner2.setAdapter(adapter);
 
-//            AutoCompleteTextView actvSosire = (AutoCompleteTextView) result.findViewById(R.id.sosireSimplu_actv);
-//            actvSosire.setAdapter(adapter);
+            return form_simplu;
+        } else{
+            View form_avansat=inflater.inflate(R.layout.formular_avansat, container, false);
 
-        }else if(position==1){
-            LinearLayout lSimplu =(LinearLayout)result.findViewById(R.id.planSimplu);
-            lSimplu.setVisibility(View.GONE);
-            LinearLayout lAvansat =(LinearLayout)result.findViewById(R.id.planAvansat);
-            lAvansat.setVisibility(View.VISIBLE);
+            Spinner spinner3 = (Spinner) form_avansat.findViewById(R.id.evita_spinner3);
 
-            Spinner spinner3 = (Spinner) result.findViewById(R.id.evita_spinner3);
+            Spinner spinner4 = (Spinner) form_avansat.findViewById(R.id.plecareAvansat_spinner);
 
-            Spinner spinner4 = (Spinner) result.findViewById(R.id.plecareAvansat_spinner);
-
-            Spinner spinner5 = (Spinner) result.findViewById(R.id.sosireAvansat_spinner);
+            Spinner spinner5 = (Spinner) form_avansat.findViewById(R.id.sosireAvansat_spinner);
 
             spinner3.setAdapter(adapter2);
             spinner4.setAdapter(adapter);
             spinner5.setAdapter(adapter);
+            return form_avansat;
         }
-
-        return(result);
     }
-
 }
