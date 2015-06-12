@@ -31,6 +31,8 @@
         <item>69</item>
         <item>90</item>
         <item>126</item>
+        <item>168</item>
+        <item>368</item>
     </string-array>
 
     <string name="title_activity_statii">StatiiActivity</string>
