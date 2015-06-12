@@ -798,6 +798,7 @@ public class PlanActivity extends ActionBarActivity {
                                 dialogMessage+= "<br/><br/>";
                                 dialogMessage+= "Se schimba in: ";
                                 System.out.println("Se schimba in: ");
+                                dialogMessage+= stat + "<br/>";
                                 System.out.println(stat);
                                 dialogMessage+= "<br/><br/>";
                                 dialogMessage+= "Se ajunge cu: ";
@@ -1426,14 +1427,19 @@ public class PlanActivity extends ActionBarActivity {
                         dialogMessage += "Timpul mediu de asteptare in statie: ";
                         System.out.println("Timpul mediu de asteptare in statie");
 
-                        if(Integer.parseInt(linieDirecta) >=1 && Integer.parseInt(linieDirecta)<=60 && mijlocEvitat.equals("tramvai"))
-                            System.out.println("Atentie, este "+ mijlocEvitat );
-                        if(Integer.parseInt(linieDirecta) >61 && Integer.parseInt(linieDirecta)<=99 && mijlocEvitat.equals("troleibuz"))
-                            System.out.println("Atentie, este "+ mijlocEvitat );
-                        if(Integer.parseInt(linieDirecta) >100 && Integer.parseInt(linieDirecta)<800 && mijlocEvitat.equals("autobuz"))
-                            System.out.println("Atentie, este "+ mijlocEvitat );
                         dialogMessage += aux + "<br/>";
                         System.out.println(aux);
+
+                        if(Integer.parseInt(linieDirecta) >=1 && Integer.parseInt(linieDirecta)<=60 && mijlocEvitat.equals("tramvai"))
+                            dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                            System.out.println("Atentie, este "+ mijlocEvitat);
+                        if(Integer.parseInt(linieDirecta) >61 && Integer.parseInt(linieDirecta)<=99 && mijlocEvitat.equals("troleibuz"))
+                            dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                            System.out.println("Atentie, este "+ mijlocEvitat);
+                        if(Integer.parseInt(linieDirecta) >100 && Integer.parseInt(linieDirecta)<800 && mijlocEvitat.equals("autobuz"))
+                            dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                            System.out.println("Atentie, este "+ mijlocEvitat);
+
 
                         dialogMessage += "Statiile prin care trece: ";
                         System.out.println("Statiile prin care trece: ");
@@ -1616,16 +1622,21 @@ public class PlanActivity extends ActionBarActivity {
                                 }
                             if (ok7 == 0) {
 
+                                String dialogMessage = "";
+                                dialogMessage += "Se pleaca cu: ";
                                 System.out.println("Se pleaca cu: ");
 
                                 System.out.println(st1);
 
                                 if(Integer.parseInt(st1) >=1 && Integer.parseInt(st1)<=60 && mijlocEvitat.equals("tramvai"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
                                 if(Integer.parseInt(st1) >61 && Integer.parseInt(st1)<=99 && mijlocEvitat.equals("troleibuz"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
                                 if(Integer.parseInt(st1) >100 && Integer.parseInt(st1)<800 && mijlocEvitat.equals("autobuz"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
                                 System.out.println("Se trece prin statiile:");
                                 LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
 
@@ -1637,12 +1648,21 @@ public class PlanActivity extends ActionBarActivity {
                                 int sPs = toateStatile.get(statieP);
                                 int sSs = toateStatile.get(stat);
 
+                                boolean firstElem = true;
                                 if (sSs > sPs) {
 
                                     for (String s : toateStatile.keySet()) {
                                         int id = toateStatile.get(s);
                                         if (id <= sSs && id >= sPs) {
-                                            System.out.println(s);
+                                            if (firstElem == true) {
+                                                dialogMessage += s;
+                                                System.out.println(s);
+
+                                            } else {
+                                                dialogMessage += ", " + s;
+                                                System.out.println(s);
+                                            }
+                                            firstElem = false;
                                         }
                                     }
                                 } else {
@@ -1653,23 +1673,38 @@ public class PlanActivity extends ActionBarActivity {
                                     for (String s : reverseList) {
                                         int id = toateStatile.get(s);
                                         if (id <= sPs && id >= sSs) {
-                                            System.out.println(s);
+                                            if (firstElem == true) {
+                                                dialogMessage += s;
+                                                System.out.println(s);
+
+                                            } else {
+                                                dialogMessage += ", " + s;
+                                                System.out.println(s);
+                                            }
+                                            firstElem = false;
                                         }
                                     }
                                 }
-
+                                dialogMessage += "Se schimba in: ";
                                 System.out.println("Se schimba in: ");
+                                dialogMessage += stat + "<br/>";
                                 System.out.println(stat);
+                                dialogMessage += "Se ajunge cu: ";
                                 System.out.println("Se ajunge cu: ");
+                                dialogMessage += st2 + "<br/>";
                                 System.out.println(st2);
 
                                 if(Integer.parseInt(st2) >=1 && Integer.parseInt(st2)<=60 && mijlocEvitat.equals("tramvai"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
                                 if(Integer.parseInt(st2) >61 && Integer.parseInt(st2)<=99 && mijlocEvitat.equals("troleibuz"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
                                 if(Integer.parseInt(st2) >100 && Integer.parseInt(st2)<800 && mijlocEvitat.equals("autobuz"))
-                                    System.out.println("Atentie, este "+ mijlocEvitat );
+                                    dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                                    System.out.println("Atentie, este "+ mijlocEvitat);
 
+                                dialogMessage += "Se trece prin statiile: ";
                                 System.out.println("Se trece prin statiile: ");
 
                                 LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
@@ -1681,13 +1716,21 @@ public class PlanActivity extends ActionBarActivity {
 
                                 int sPs1 = toateStatile2.get(stat);
                                 int sSs1 = toateStatile2.get(statieS);
-
+                                firstElem = true;
                                 if (sSs1 > sPs1) {
 
                                     for (String s : toateStatile2.keySet()) {
                                         int id = toateStatile2.get(s);
                                         if (id <= sSs1 && id >= sPs1) {
-                                            System.out.println(s);
+                                            if (firstElem == true) {
+                                                dialogMessage += s;
+                                                System.out.println(s);
+
+                                            } else {
+                                                dialogMessage += ", " + s;
+                                                System.out.println(s);
+                                            }
+                                            firstElem = false;
                                         }
                                     }
                                 } else {
@@ -1698,15 +1741,37 @@ public class PlanActivity extends ActionBarActivity {
                                     for (String s : reverseList) {
                                         int id = toateStatile2.get(s);
                                         if (id <= sPs1 && id >= sSs1) {
-                                            System.out.println(s);
+                                            if (firstElem == true) {
+                                                dialogMessage += s;
+                                                System.out.println(s);
+
+                                            } else {
+                                                dialogMessage += ", " + s;
+                                                System.out.println(s);
+                                            }
+                                            firstElem = false;
                                         }
 
 
                                     }
                                 }
+                                dialogMessage += "Timpul mediu total de asteptare in statii:" + suma + "  minute";
                                 System.out.println("Timpul mediu total de asteptare in statii:" + suma + "  minute");
 
                                 ok7 = 1;
+                                dialogMessage += "<br/>";
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(PlanActivity.this);
+                                builder2.setCancelable(true);
+                                builder2.setMessage(Html.fromHtml(dialogMessage));
+                                builder2.setPositiveButton("Close",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                AlertDialog alert22 = builder2.create();
+                                alert22.show();
                             }}
                         }
                     }
@@ -1781,16 +1846,21 @@ public class PlanActivity extends ActionBarActivity {
                     System.out.println("Sugestia este:");
                     dialogMessage += linieDirecta + "<br/>";
                     System.out.println(linieDirecta);
-                    if(Integer.parseInt(linieDirecta) >=1 && Integer.parseInt(linieDirecta)<=60 && mijlocEvitat.equals("tramvai"))
-                        System.out.println("Atentie, este "+ mijlocEvitat );
-                    if(Integer.parseInt(linieDirecta) >61 && Integer.parseInt(linieDirecta)<=99 && mijlocEvitat.equals("troleibuz"))
-                        System.out.println("Atentie, este "+ mijlocEvitat );
-                    if(Integer.parseInt(linieDirecta) >100 && Integer.parseInt(linieDirecta)<800 && mijlocEvitat.equals("autobuz"))
-                        System.out.println("Atentie, este "+ mijlocEvitat );
+
                     dialogMessage += "Timpul mediu de asteptare in statie: ";
                     System.out.println("Timpul mediu de asteptare in statie");
                     dialogMessage += aux + "<br/>";
                     System.out.println(aux);
+
+                    if(Integer.parseInt(linieDirecta) >=1 && Integer.parseInt(linieDirecta)<=60 && mijlocEvitat.equals("tramvai"))
+                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                        System.out.println("Atentie, este "+ mijlocEvitat );
+                    if(Integer.parseInt(linieDirecta) >61 && Integer.parseInt(linieDirecta)<=99 && mijlocEvitat.equals("troleibuz"))
+                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                        System.out.println("Atentie, este "+ mijlocEvitat );
+                    if(Integer.parseInt(linieDirecta) >100 && Integer.parseInt(linieDirecta)<800 && mijlocEvitat.equals("autobuz"))
+                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
+                        System.out.println("Atentie, este "+ mijlocEvitat );
 
                     dialogMessage += "Statiile prin care trece: ";
                     System.out.println("Statiile prin care trece: ");
@@ -1874,17 +1944,49 @@ public class PlanActivity extends ActionBarActivity {
                 // cazul in care se gaseste decat o linie directa si aceea e cea de evitat
 
                 if (ok == 1 && vb3 == 0) {
-                    System.out.println("Singura legatura directa este linia pe care doesti sa o eviti");
 
+                    String dialogMessage = "";
+                    dialogMessage += "Singura legatura directa este linia pe care doresti sa o eviti!";
+                    dialogMessage += "<br/><br/>";
+                    System.out.println("Singura legatura directa este linia pe care doresti sa o eviti!");
+                    dialogMessage += "Aceasta este: <b>" + linieEvitata + "</b>";
                     System.out.println("Aceasta este: " + linieEvitata);
-                    System.out.println("Pentru noi sugestii, intoarce-te la formularul de calatorie");
+                    dialogMessage += "<br/><br/>";
+                    dialogMessage += "Pentru noi sugestii, intoarce-te la formularul de calatorie.";
+                    System.out.println("Pentru noi sugestii, intoarce-te la formularul de calatorie.");
+                    dialogMessage += "<br/>";
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
+                    builder1.setCancelable(true);
+                    builder1.setMessage(Html.fromHtml(dialogMessage));
+                    builder1.setPositiveButton("Close",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
 
                 }
 
                 // cazul in care nu gasesc linie directa, chiar daca as include linia evitata
 
                 if (ok == 0 && vb3 == 0) {
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
+                    builder1.setCancelable(true);
+                    builder1.setMessage(Html.fromHtml("Nu exista legatura directa!"));
                     System.out.println("Nu exista legatura directa!");
+                    builder1.setPositiveButton("Close",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
 
                     int timp = 1000;
 
@@ -2000,17 +2102,23 @@ public class PlanActivity extends ActionBarActivity {
                                 if (ok7 == 0 && ((!st1.equals(linieEvitata))) && (!st2.equals(linieEvitata)))
 
                                 {
-
+                                    String dialogMessage = "";
+                                    dialogMessage += "Se pleaca cu: ";
                                     System.out.println("Se pleaca cu: ");
 
+                                    dialogMessage += st1 + "<br/>";
                                     System.out.println(st1);
                                     if(Integer.parseInt(st1) >=1 && Integer.parseInt(st1)<=60 && mijlocEvitat.equals("tramvai"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
                                     if(Integer.parseInt(st1) >61 && Integer.parseInt(st1)<=99 && mijlocEvitat.equals("troleibuz"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
                                     if(Integer.parseInt(st1) >100 && Integer.parseInt(st1)<800 && mijlocEvitat.equals("autobuz"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
-                                    System.out.println("Se trece prin statiile:");
+                                    dialogMessage += "Se trece prin statiile: ";
+                                    System.out.println("Se trece prin statiile: ");
                                     LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
 
                                     Cursor c2 = helper.getStatiiByLinie(st1);
@@ -2021,12 +2129,20 @@ public class PlanActivity extends ActionBarActivity {
                                     int sPs = toateStatile.get(statieP);
                                     int sSs = toateStatile.get(stat);
 
+                                    boolean firstElem = true;
                                     if (sSs > sPs) {
 
                                         for (String s : toateStatile.keySet()) {
                                             int id = toateStatile.get(s);
                                             if (id <= sSs && id >= sPs) {
-                                                System.out.println(s);
+                                                if (firstElem == true) {
+                                                    dialogMessage += isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                } else {
+                                                    dialogMessage += ", " + isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                }
+                                                firstElem = false;
                                             }
                                         }
                                     } else {
@@ -2037,23 +2153,39 @@ public class PlanActivity extends ActionBarActivity {
                                         for (String s : reverseList) {
                                             int id = toateStatile.get(s);
                                             if (id <= sPs && id >= sSs) {
+                                                if (firstElem == true) {
+                                                    dialogMessage += isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                } else {
+                                                    dialogMessage += ", " + isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                }
+                                                firstElem = false;
                                                 System.out.println(s);
                                             }
                                         }
                                     }
 
+                                    dialogMessage += "Se schimba in: ";
                                     System.out.println("Se schimba in: ");
+                                    dialogMessage += stat;
                                     System.out.println(stat);
+                                    dialogMessage += "Se ajunge cu: ";
                                     System.out.println("Se ajunge cu: ");
+                                    dialogMessage += st2;
                                     System.out.println(st2);
 
                                     if(Integer.parseInt(st2) >=1 && Integer.parseInt(st2)<=60 && mijlocEvitat.equals("tramvai"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
                                     if(Integer.parseInt(st2) >61 && Integer.parseInt(st2)<=99 && mijlocEvitat.equals("troleibuz"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
                                     if(Integer.parseInt(st2) >100 && Integer.parseInt(st2)<800 && mijlocEvitat.equals("autobuz"))
+                                        dialogMessage += "Atentie, este "+ mijlocEvitat + "<br/>";
                                         System.out.println("Atentie, este "+ mijlocEvitat );
 
+                                    dialogMessage += "Se trece prin statiile: ";
                                     System.out.println("Se trece prin statiile: ");
 
                                     LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
@@ -2066,12 +2198,20 @@ public class PlanActivity extends ActionBarActivity {
                                     int sPs1 = toateStatile2.get(stat);
                                     int sSs1 = toateStatile2.get(statieS);
 
+                                    boolean firstElem1 =  true;
                                     if (sSs1 > sPs1) {
 
                                         for (String s : toateStatile2.keySet()) {
                                             int id = toateStatile2.get(s);
                                             if (id <= sSs1 && id >= sPs1) {
-                                                System.out.println(s);
+                                                if (firstElem == true) {
+                                                    dialogMessage += isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                } else {
+                                                    dialogMessage += ", " + isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                }
+                                                firstElem = false;
                                             }
                                         }
                                     } else {
@@ -2082,20 +2222,54 @@ public class PlanActivity extends ActionBarActivity {
                                         for (String s : reverseList) {
                                             int id = toateStatile2.get(s);
                                             if (id <= sPs1 && id >= sSs1) {
-                                                System.out.println(s);
+                                                if (firstElem == true) {
+                                                    dialogMessage += isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                } else {
+                                                    dialogMessage += ", " + isHead(s, statieP, statieS);
+                                                    System.out.println(s);
+                                                }
+                                                firstElem = false;
                                             }
 
 
                                         }
                                     }
+                                    dialogMessage += "Timpul mediu total de asteptare in statii:" + suma + "  minute";
                                     System.out.println("Timpul mediu total de asteptare in statii:" + suma + "  minute");
 
                                     ok7 = 1;
+                                    dialogMessage += "<br/>";
+                                    AlertDialog.Builder builder2 = new AlertDialog.Builder(PlanActivity.this);
+                                    builder2.setCancelable(true);
+                                    builder2.setMessage(Html.fromHtml(dialogMessage));
+                                    builder2.setPositiveButton("Close",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+
+                                    AlertDialog alert22 = builder2.create();
+                                    alert22.show();
                                 }
                             }
                         }
-                        if (ok6 == 0)
+                        if (ok6 == 0) {
+                            AlertDialog.Builder builder2 = new AlertDialog.Builder(PlanActivity.this);
+                            builder2.setCancelable(true);
+                            builder2.setMessage(Html.fromHtml("Nu se poate gasi traseu care sa evite linia selectata!"));
+                            builder2.setPositiveButton("Close",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                            AlertDialog alert22 = builder2.create();
+                            alert22.show();
                             System.out.println("Nu se poate gasi traseu care sa evite linia selectata!");
+                        }
                     }
                 }
 
