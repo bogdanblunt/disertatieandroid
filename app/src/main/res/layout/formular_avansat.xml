@@ -67,7 +67,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <RadioButton android:id="@+id/unicaLinieRadio"
+                <RadioButton android:checked="true"
+                    android:id="@+id/unicaLinieRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unicaLinieRadio"
@@ -117,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/autobuzRadio"
                     />
-                <RadioButton android:id="@+id/nimicRadio"
+                <RadioButton android:checked="true"
+                    android:id="@+id/nimicRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/nimicRadio"

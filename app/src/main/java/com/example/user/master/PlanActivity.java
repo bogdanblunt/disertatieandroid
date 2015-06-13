@@ -538,7 +538,6 @@ public class PlanActivity extends ActionBarActivity {
                 int aux = 1000;
                 String linieDirecta = "";
 
-                {
                     for (String liniiP : cursorLiniiP) {
                         for (String liniiS : cursorLiniiS) {
 
@@ -647,236 +646,251 @@ public class PlanActivity extends ActionBarActivity {
                     }
 
 
-                    if (ok == 0) {
-                        for (String p : cursorLiniiP) {
-                            List<String> st = new ArrayList<>();
-                            Cursor c = helper.getStatiiByLinie(p);
-                            while (c.moveToNext()) {
-                                st.add(c.getString(0));
-                            }
-                            statiiPeLiniiP.addAll(st);
-
-                        }
-                    //for(String s: statiiPeLiniiP) System.out.println(s);
-
-                    for (String p : cursorLiniiS) {
+                if (ok == 0) {
+                    for (String p : cursorLiniiP) {
                         List<String> st = new ArrayList<>();
                         Cursor c = helper.getStatiiByLinie(p);
                         while (c.moveToNext()) {
                             st.add(c.getString(0));
                         }
-                        statiiPeLiniiS.addAll(st);
+                        statiiPeLiniiP.addAll(st);
 
                     }
 
-                    boolean b = false;
-                    for (String s1 : statiiPeLiniiP)
-                        for (String s2 : statiiPeLiniiS) {
-                            if ((s1.equals(s2)) && (!s1.equals(statieP)) && (!s1.equals(statieS))) {
+                for (String p : cursorLiniiS) {
+                    List<String> st = new ArrayList<>();
+                    Cursor c = helper.getStatiiByLinie(p);
+                    while (c.moveToNext()) {
+                        st.add(c.getString(0));
+                    }
+                    statiiPeLiniiS.addAll(st);
 
-                                b = true;
-                                statiiComune.add(s1);
+                }
+
+                boolean b = false;
+                for (String s1 : statiiPeLiniiP)
+                    for (String s2 : statiiPeLiniiS) {
+                        if ((s1.equals(s2)) && (!s1.equals(statieP)) && (!s1.equals(statieS))) {
+
+                            b = true;
+                            statiiComune.add(s1);
+                        }
+                    }
+
+                if (b == true) {
+
+                    List<TimpiStComuneBean> timpiStComuneBeans = new ArrayList<>();
+
+                    for (String stat : statiiComune) {
+                        l3.clear();
+                        l4.clear();
+                        l5.clear();
+                        l6.clear();
+                        l1 = helper.getLiniiByStatie(stat);   //toate liniile care au si statia de legatura
+
+
+                        for (String z : l1) {
+
+                            if (setLiniiXYZ.contains(z)) {
+                                continue;
                             }
+
+                            Cursor c = helper.getStatiiByLinie(z);
+                            while (c.moveToNext()) {
+                                statiiDePlecare.put(c.getString(0), c.getInt(2));
+                            }
+
+                            //iau toate statiile care se gasesc pe liniile de mai sus
+
+                            ArrayList<String> statiiPl = new ArrayList<>();
+                            statiiPl.addAll(statiiDePlecare.keySet());
+                            statiiDePlecare = new LinkedHashMap<>();
+
+                            for (String r : statiiPl) {
+
+                                if (r.equals(statieP)) {
+
+                                    l3.add(helper.getTimpByLinie(z));
+                                    l5.add(z);
+                                    l7.add(z);
+
+                                }
+
+                                if (r.equals(statieS)) {
+
+                                    l4.add(helper.getTimpByLinie(z));
+                                    l6.add(z);
+                                    l8.add(z);
+                                }
+
+                            }
+
+                            setLiniiXYZ.add(z);
                         }
 
-                    if (b == true) {
+                        Integer suma = 1000;
+                        Integer se = 0;
 
-                        for (String stat : statiiComune) {
-                            l3.clear();
-                            l4.clear();
-                            l5.clear();
-                            l6.clear();
-                            l1 = helper.getLiniiByStatie(stat);   //toate liniile care au si statia de legatura
+                        for (Integer r = 0; r < l3.size(); r++)
+                            for (Integer t = 0; t < l4.size(); t++) {
 
+                                se = l3.get(r) + l4.get(t);
 
-                            for (String z : l1) {
-
-                                if (setLiniiXYZ.contains(z)) {
-                                    continue;
+                                if (se < suma) {
+                                    suma = se;
+                                    st1 = l5.get(r);
+                                    st2 = l6.get(t);
                                 }
 
-                                Cursor c = helper.getStatiiByLinie(z);
-                                while (c.moveToNext()) {
-                                    statiiDePlecare.put(c.getString(0), c.getInt(2));
-                                }
-
-                                //iau toate statiile care se gasesc pe liniile de mai sus
-
-                                ArrayList<String> statiiPl = new ArrayList<>();
-                                statiiPl.addAll(statiiDePlecare.keySet());
-
-                                for (String r : statiiPl) {
-
-                                    if (r.equals(statieP)) {
-
-                                        l3.add(helper.getTimpByLinie(z));
-                                        l5.add(z);
-                                        l7.add(z);
-
-                                    }
-
-                                    if (r.equals(statieS)) {
-
-                                        l4.add(helper.getTimpByLinie(z));
-                                        l6.add(z);
-                                        l8.add(z);
-                                    }
-
-                                }
-
-                                setLiniiXYZ.add(z);
                             }
 
-                            Integer suma = 1000;
-                            Integer se = 0;
+                        timpiStComuneBeans.add(new TimpiStComuneBean(st1, st2, stat, se));
 
-                            for (Integer r = 0; r < l3.size(); r++)
-                                for (Integer t = 0; t < l4.size(); t++) {
+                        setLiniiXYZ.clear();
+                    }
 
-                                    se = l3.get(r) + l4.get(t);
+                    Integer min = timpiStComuneBeans.get(0).getTimp();
+                    Integer pozitieMin = 0;
+                    for(int i = 1; i<timpiStComuneBeans.size();i++) {
+                        int temp = timpiStComuneBeans.get(i).getTimp();
+                        if(temp<min) {
+                            min = temp;
+                            pozitieMin = i;
+                        }
+                    }
 
-                                    if (se < suma) {
-                                        suma = se;
-                                        st1 = l5.get(r);
-                                        st2 = l6.get(t);
+                    TimpiStComuneBean traseuOptim = timpiStComuneBeans.get(pozitieMin);
+
+                        String dialogMessage = "";
+                        dialogMessage+="Se pleaca cu: ";
+                        System.out.println("Se pleaca cu: ");
+                        dialogMessage+=traseuOptim.getLiniePlecare() + "<br/>";
+                        System.out.println(traseuOptim.getLiniePlecare());
+                        dialogMessage+="Se trece prin statiile: ";
+                        System.out.println("Se trece prin statiile: ");
+                        LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
+
+                        Cursor c2 = helper.getStatiiByLinie(traseuOptim.getLiniePlecare());
+                        while (c2.moveToNext()) {
+                            toateStatile.put(c2.getString(0), c2.getInt(2));
+                        }
+
+                        int sPs = toateStatile.get(statieP);
+                        int sSs = toateStatile.get(traseuOptim.getStatieComuna());
+
+                        boolean firstElem = true;
+                        if (sSs > sPs) {
+
+                            for (String s : toateStatile.keySet()) {
+                                int id = toateStatile.get(s);
+                                if (id <= sSs && id >= sPs) {
+                                    if (firstElem == true) {
+                                        dialogMessage += isHead(s, statieP, statieS);
+                                        System.out.println(s);
+                                    } else {
+                                        dialogMessage += ", " + isHead(s, statieP, statieS);
+                                        System.out.println(s);
                                     }
-
+                                    firstElem = false;
                                 }
-                            if (ok7 == 0) {
-                                String dialogMessage = "";
-                                dialogMessage+="Se pleaca cu: ";
-                                System.out.println("Se pleaca cu: ");
-                                dialogMessage+=st1 + "<br/>";
-                                System.out.println(st1);
-                                dialogMessage+="Se trece prin statiile: ";
-                                System.out.println("Se trece prin statiile: ");
-                                LinkedHashMap<String, Integer> toateStatile = new LinkedHashMap<>();
+                            }
+                        } else {
+                            ArrayList<String> reverseList = new ArrayList<>();
+                            reverseList.addAll(toateStatile.keySet());
+                            Collections.reverse(reverseList);
 
-                                Cursor c2 = helper.getStatiiByLinie(st1);
-                                while (c2.moveToNext()) {
-                                    toateStatile.put(c2.getString(0), c2.getInt(2));
-                                }
-
-                                int sPs = toateStatile.get(statieP);
-                                int sSs = toateStatile.get(stat);
-
-                                boolean firstElem = true;
-                                if (sSs > sPs) {
-
-                                    for (String s : toateStatile.keySet()) {
-                                        int id = toateStatile.get(s);
-                                        if (id <= sSs && id >= sPs) {
-                                            if (firstElem == true) {
-                                                dialogMessage += isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            } else {
-                                                dialogMessage += ", " + isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            }
-                                            firstElem = false;
-                                        }
+                            for (String s : reverseList) {
+                                int id = toateStatile.get(s);
+                                if (id <= sPs && id >= sSs) {
+                                    if (firstElem == true) {
+                                        dialogMessage += isHead(s, statieP, statieS);
+                                        System.out.println(s);
+                                    } else {
+                                        dialogMessage += ", " + isHead(s, statieP, statieS);
+                                        System.out.println(s);
                                     }
-                                } else {
-                                    ArrayList<String> reverseList = new ArrayList<>();
-                                    reverseList.addAll(toateStatile.keySet());
-                                    Collections.reverse(reverseList);
-
-                                    for (String s : reverseList) {
-                                        int id = toateStatile.get(s);
-                                        if (id <= sPs && id >= sSs) {
-                                            if (firstElem == true) {
-                                                dialogMessage += isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            } else {
-                                                dialogMessage += ", " + isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            }
-                                            firstElem = false;
-                                        }
-                                    }
+                                    firstElem = false;
                                 }
-                                dialogMessage+= "<br/><br/>";
-                                dialogMessage+= "Se schimba in: ";
-                                System.out.println("Se schimba in: ");
-                                dialogMessage+= stat + "<br/>";
-                                System.out.println(stat);
-                                dialogMessage+= "<br/><br/>";
-                                dialogMessage+= "Se ajunge cu: ";
-                                System.out.println("Se ajunge cu: ");
-                                dialogMessage+= st2 + "<br/>";
-                                System.out.println(st2);
+                            }
+                        }
+                        dialogMessage+= "<br/><br/>";
+                        dialogMessage+= "Se schimba in: ";
+                        System.out.println("Se schimba in: ");
+                        dialogMessage+= traseuOptim.getStatieComuna() + "<br/>";
+                        System.out.println(traseuOptim.getStatieComuna());
+                        dialogMessage+= "<br/><br/>";
+                        dialogMessage+= "Se ajunge cu: ";
+                        System.out.println("Se ajunge cu: ");
+                        dialogMessage+= traseuOptim.getStatieComuna() + "<br/>";
+                        System.out.println(traseuOptim.getStatieComuna());
 
-                                dialogMessage+= "Se trece prin statiile: ";
-                                System.out.println("Se trece prin statiile: ");
+                        dialogMessage+= "Se trece prin statiile: ";
+                        System.out.println("Se trece prin statiile: ");
 
-                                LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
+                        LinkedHashMap<String, Integer> toateStatile2 = new LinkedHashMap<>();
 
-                                Cursor c3 = helper.getStatiiByLinie(st2);
-                                while (c3.moveToNext()) {
-                                    toateStatile2.put(c3.getString(0), c3.getInt(2));
-                                }
+                        Cursor c3 = helper.getStatiiByLinie(traseuOptim.getLinieSosire());
+                        while (c3.moveToNext()) {
+                            toateStatile2.put(c3.getString(0), c3.getInt(2));
+                        }
 
-                                int sPs1 = toateStatile2.get(stat);
-                                int sSs1 = toateStatile2.get(statieS);
+                        int sPs1 = toateStatile2.get(traseuOptim.getStatieComuna());
+                        int sSs1 = toateStatile2.get(statieS);
 
-                                if (sSs1 > sPs1) {
+                        if (sSs1 > sPs1) {
 
-                                    for (String s : toateStatile2.keySet()) {
-                                        int id = toateStatile2.get(s);
-                                        if (id <= sSs1 && id >= sPs1) {
-                                            if (firstElem == true) {
-                                                dialogMessage += isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            } else {
-                                                dialogMessage += ", " + isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            }
-                                            firstElem = false;
-                                        }
+                            for (String s : toateStatile2.keySet()) {
+                                int id = toateStatile2.get(s);
+                                if (id <= sSs1 && id >= sPs1) {
+                                    if (firstElem == true) {
+                                        dialogMessage += isHead(s, statieP, statieS);
+                                        System.out.println(s);
+                                    } else {
+                                        dialogMessage += ", " + isHead(s, statieP, statieS);
+                                        System.out.println(s);
                                     }
-                                } else {
-                                    ArrayList<String> reverseList = new ArrayList<>();
-                                    reverseList.addAll(toateStatile2.keySet());
-                                    Collections.reverse(reverseList);
-
-                                    for (String s : reverseList) {
-                                        int id = toateStatile2.get(s);
-                                        if (id <= sPs1 && id >= sSs1) {
-                                            if (firstElem == true) {
-                                                dialogMessage += isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            } else {
-                                                dialogMessage += ", " + isHead(s, statieP, statieS);
-                                                System.out.println(s);
-                                            }
-                                            firstElem = false;
-                                        }
-
-
-                                    }
+                                    firstElem = false;
                                 }
-                                dialogMessage+= "Timpul mediu total de asteptare in statii:" + suma + "  minute";
-                                System.out.println("Timpul mediu total de asteptare in statii:" + suma + "  minute");
+                            }
+                        } else {
+                            ArrayList<String> reverseList = new ArrayList<>();
+                            reverseList.addAll(toateStatile2.keySet());
+                            Collections.reverse(reverseList);
 
-                                ok7 = 1;
-
-                                dialogMessage += "<br/>";
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
-                                builder1.setCancelable(true);
-                                builder1.setMessage(Html.fromHtml(dialogMessage));
-                                builder1.setPositiveButton("Close",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
-                            }}
+                            for (String s : reverseList) {
+                                int id = toateStatile2.get(s);
+                                if (id <= sPs1 && id >= sSs1) {
+                                    if (firstElem == true) {
+                                        dialogMessage += isHead(s, statieP, statieS);
+                                        System.out.println(s);
+                                    } else {
+                                        dialogMessage += ", " + isHead(s, statieP, statieS);
+                                        System.out.println(s);
+                                    }
+                                    firstElem = false;
+                                }
 
 
                             }
+                        }
+                        dialogMessage+= "<br/><br/>";
+                        dialogMessage+= "Timpul mediu total de asteptare in statii:" + traseuOptim.getTimp() + "  minute";
+                        System.out.println("Timpul mediu total de asteptare in statii:" + traseuOptim.getTimp() + "  minute");
+
+                        dialogMessage += "<br/>";
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(PlanActivity.this);
+                        builder1.setCancelable(true);
+                        builder1.setMessage(Html.fromHtml(dialogMessage));
+                        builder1.setPositiveButton("Close",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
                         }
                     }
                 }
