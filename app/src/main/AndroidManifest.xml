@@ -28,6 +28,12 @@
             android:name=".LiniiActivity"
             android:label="Linii" >
         </activity>
+
+        <activity
+            android:name=".utils.ResultsActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"
+            android:label="@string/title_activity_results" >
+        </activity>
     </application>
 
 </manifest>
