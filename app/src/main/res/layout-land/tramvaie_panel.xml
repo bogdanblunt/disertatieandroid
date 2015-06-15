@@ -1,37 +1,68 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/liniiTramvai"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:layout_gravity="center"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/liniiTramvai"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
     >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingBottom="20dp"
+        android:layout_marginLeft="20dp"
+        >
+    <TextView
+        android:text="Linii tramvai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:textSize="20dp"
+        android:textColor="#4A7023"  />
 
-<TextView
-    android:text="Linii tramvai"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|center_horizontal"
-    android:textStyle="bold"
-    android:paddingTop="10dp"
-    android:textSize="20dp"
-    android:textColor="#4A7023"  />
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tram1"
+        />
 
-<ImageView
-    android:layout_marginTop="20dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="left"
-    android:src="@drawable/tram1"
-    />
+</LinearLayout>
 
-<Spinner
-    android:layout_marginTop="20dp"
-    android:id="@+id/tramvai_spinner"
-    android:paddingTop="10dp"
-    android:layout_width="100dp"
-    android:layout_gravity="center_horizontal|center_vertical"
-    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingBottom="20dp"
+        >
+        <Spinner
+            android:layout_marginTop="20dp"
+            android:id="@+id/tramvai_spinner"
+            android:paddingTop="10dp"
+            android:layout_width="100dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_height="wrap_content">
 
-</Spinner>
+        </Spinner>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical" >
 
+            <TableLayout
+                android:id="@+id/tableStatiiForLinie"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="30dp"
+                >
+            </TableLayout>
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>
